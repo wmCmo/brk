@@ -22,13 +22,13 @@ export default function MenuItem({ data }: { data: NotionResponse[]; }) {
     ];
 
     return (
-        <>
-            <select name="category" id="category" onChange={e => setCategory(e.target.value)} value={category}>
-                {categoryMenu.map(item => <option value={item.value} className='bg-black' key={item.value}>{item.title}</option>)}
+        <section className='mt-8 pb-12'>
+            <select className='text-xl bg-zinc-200 px-2 py-2 rounded-2xl' name="category" id="category" onChange={e => setCategory(e.target.value)} value={category}>
+                {categoryMenu.map(item => <option value={item.value} className='rounded-2xl' key={item.value}>{item.title}</option>)}
             </select>
-            <div>
+            <div className='mt-8'>
                 {data.filter(item => item.properties.Category.select.name === category).map((item) => <ItemCard key={item.id} data={item} cart={cart} handleAddCart={handleAddCart} handleRemoveCart={handleRemoveCart} />)}
             </div>
-        </>
+        </section>
     );
 }

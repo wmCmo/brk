@@ -16,7 +16,7 @@ export default function MobileNav() {
     ];
 
     return (
-        <div className="flex sticky bottom-0 justify-around h-20 bg-zinc-200 w-full rounded-t-md">
+        <div className="flex fixed bottom-0 justify-around h-20 bg-zinc-200 w-full rounded-t-md">
             {navIcons.map(({ index, target }) => {
                 console.log(pathname === target);
                 return (

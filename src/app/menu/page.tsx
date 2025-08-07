@@ -10,12 +10,10 @@ export default async function MenuPage({ searchParams }: { searchParams: SearchP
 
     const data = await res.json();
 
-    res.json().then(info => console.log(info));
-
     return (
-        <>
+        <main className="bg-zinc-100 text-zinc-800 p-4">
             <Greeting timeout={timeout} house={house} />
             {data ? <MenuItem data={data} /> : "...loading"}
-        </>
+        </main>
     );
 }

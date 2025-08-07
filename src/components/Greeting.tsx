@@ -56,7 +56,7 @@ export default function Greeting({ house, timeout }: SearchParamsType) {
                         <div className='flex gap-2 items-center'>
                             <h1 className='text-zinc-400 text-xl'>Good {greeting}</h1>
                             <span>⋅</span>
-                            <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleLogout} className='cursor-pointer'>Logout</button>
                         </div>
                         <h2 className='text-lime-600 text-5xl font-extrabold mt-1'>{client.name}</h2>
                     </div>

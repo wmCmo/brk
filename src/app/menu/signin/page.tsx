@@ -15,14 +15,8 @@ import { SearchParamsType } from '@/types/searchParams';
 export default function Page() {
     const [user, setUser] = useState<UserType | undefined>(undefined);
     const [localUser, updateLocalUser] = useLocalItem<UserType | undefined>('client');
-    const [details, updateDetails] = useLocalItem<SearchParamsType | undefined>('details');
     const router = useRouter();
-    let house = undefined;
-    let timeout = undefined;
-    if (details) {
-        house = details.house as keyof typeof houses;
-        timeout = details.timeout;
-    }
+    const details: SearchParamsType = JSON.parse(localStorage.getItem('details') || '{}');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
@@ -41,7 +35,7 @@ export default function Page() {
 
         if (!(user?.name && user.phone)) {
             window.alert('Please fill out necessary information.');
-        } else if (validParams(house, timeout)) {
+        } else if (validParams(details.house, details.timeout)) {
             updateLocalUser(user);
             router.push('/menu');
         } else window.alert('Invalid order URL. Please ask for the new one from our staff.');
@@ -53,7 +47,7 @@ export default function Page() {
     };
 
 
-    return (<>{validSession(house, timeout, localUser) ?
+    return (<>{validSession(details.house, details.timeout, localUser) ?
         <Settings /> :
         <>
             <Image src={'/images/interface/logo.svg'} width={80} height={80} alt='logo' />
@@ -75,8 +69,8 @@ export default function Page() {
                 <Button primary={true} buttonProps={{ type: 'submit' }}>Sign in</Button>
             </form>
 
-            <div>House: <b>{house ? houses[house].en : "Unspecified"}</b></div>
-            <div>Checkout Date: <b>{timeout ? new Date(getTimeoutString(timeout)).toDateString() + " 13:00" : "Unspecified"}</b></div>
+            <div>House: <b>{details.house ? houses[details.house].en : "Unspecified"}</b></div>
+            <div>Checkout Date: <b>{details.timeout ? new Date(getTimeoutString(details.timeout)).toDateString() + " 13:00" : "Unspecified"}</b></div>
         </>
     }
     </>);

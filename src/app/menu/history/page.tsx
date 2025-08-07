@@ -4,7 +4,7 @@ import { HistoryType } from '@/types/history';
 import React from 'react';
 
 export default function HistoryPage() {
-  const history = JSON.parse(localStorage.getItem('history') || '{}');
+  const history = JSON.parse(localStorage.getItem('history') || '[]');
   return (
     <>
       <h1>Order History</h1>

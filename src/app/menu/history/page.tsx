@@ -1,10 +1,19 @@
 'use client';
 
 import { HistoryType } from '@/types/history';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function HistoryPage() {
-  const history = JSON.parse(localStorage.getItem('history') || '[]');
+
+  const [history, setHistory] = useState<HistoryType[]>([]);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const readHistory = localStorage.getItem('history');
+      if (readHistory) setHistory(JSON.parse(readHistory));
+    }
+  }, []);
+
   return (
     <>
       <h1>Order History</h1>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Settings from './Settings';
 import Button from '@/components/Button';
@@ -14,9 +14,16 @@ import { SearchParamsType } from '@/types/searchParams';
 
 export default function Page() {
     const [user, setUser] = useState<UserType | undefined>(undefined);
+    const [details, setDetails] = useState<SearchParamsType>({});
     const [localUser, updateLocalUser] = useLocalItem<UserType | undefined>('client');
     const router = useRouter();
-    const details: SearchParamsType = JSON.parse(localStorage.getItem('details') || '{}');
+
+    useEffect(() => {
+        if (typeof window !== undefined) {
+            const readDetails = localStorage.getItem('details');
+            if (readDetails) setDetails(JSON.parse(readDetails));
+        }
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
@@ -32,7 +39,6 @@ export default function Page() {
     };
 
     const handleSubmit = () => {
-
         if (!(user?.name && user.phone)) {
             window.alert('Please fill out necessary information.');
         } else if (validParams(details.house, details.timeout)) {

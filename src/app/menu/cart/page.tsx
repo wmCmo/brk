@@ -35,8 +35,8 @@ export default function CartPage() {
 
   const sendMessage = async () => {
     const groupId = process.env.NEXT_PUBLIC_GROUP_ID;
-    const details = JSON.parse(localStorage.getItem('details') || '');
-    const client = JSON.parse(localStorage.getItem('client') || '');
+    const details = JSON.parse(localStorage.getItem('details') || '{}');
+    const client = JSON.parse(localStorage.getItem('client') || '{}');
 
     if (!validSession(details.house, details.timeout, client)) {
       window.alert('The session is not valid. Please ask for the URL from our staff');
@@ -49,7 +49,6 @@ export default function CartPage() {
       window.alert('Please select the serving time');
       return;
     }
-
 
     const year = d.getFullYear();
     const month = String(d.getMonth()).padStart(2, '0');

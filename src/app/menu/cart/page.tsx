@@ -1,19 +1,30 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Greeting from '@/components/Greeting';
 import useCart from '@/hooks/useCart';
 import Button from '@/components/Button';
 import { sendLineMessage } from '@/lib/sendLineMessage';
 import { useRouter } from 'next/navigation';
 import validSession from '@/utils/validSession';
+import { getTimeoutString } from '@/utils/validParams';
+import { SearchParamsType } from '@/types/searchParams';
+import Image from 'next/image';
 
 export default function CartPage() {
 
   const [cart, setCart, , handleRemoveCart] = useCart();
   const [dateTime, setDateTime] = useState('');
   const [confirmOrder, setConfirmOrder] = useState(false);
+  const [details, setDetails] = useState<SearchParamsType>({});
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const readDetails = localStorage.getItem('details');
+      if (readDetails) setDetails(JSON.parse(readDetails));
+    }
+  }, []);
 
   const handleAddCart = (key: string, value: { th: string, en: string, price: number, count: number; }) => {
     setCart(prevCart => ({
@@ -35,11 +46,15 @@ export default function CartPage() {
 
   const sendMessage = async () => {
     const groupId = process.env.NEXT_PUBLIC_GROUP_ID;
-    const details = JSON.parse(localStorage.getItem('details') || '{}');
     const client = JSON.parse(localStorage.getItem('client') || '{}');
 
     if (!validSession(details.house, details.timeout, client)) {
       window.alert('The session is not valid. Please ask for the URL from our staff');
+      return;
+    }
+
+    if (Object.keys(cart).length === 0) {
+      window.alert('You cannot order zero item.');
       return;
     }
 
@@ -56,6 +71,17 @@ export default function CartPage() {
     const hour = String(d.getHours()).padStart(2, '0');
     const min = String(d.getMinutes()).padStart(2, '0');
 
+    if (!details.timeout) {
+      window.alert('Invalid section: Please ask our staff for the URL');
+      return;
+    } else {
+      const timeoutString = getTimeoutString(details.timeout);
+      if (d < new Date() || d > new Date(timeoutString + 'T14:00')) {
+        window.alert('Please select a valid date');
+        return;
+      }
+    }
+
     if (Number(hour) < 12 || Number(hour) > 21) {
       window.alert('The selected time is outside the operation time');
       return;
@@ -71,7 +97,6 @@ export default function CartPage() {
           `บ้าน ${details.house}\n` + `${client.name} ${client.phone}\n` + `${`${year}/${month}/${day} - ${hour}:${min}`}\n` + `------\n` + `${Object.entries(cart).map(item => `${item[1].th} = ${item[1].count}\n`).join('')}`
       }]);
     }
-
 
     const history = JSON.parse(localStorage.getItem('history') || '[]');
     history.push({
@@ -99,49 +124,56 @@ export default function CartPage() {
 
 
   return (
-    <main className='relative'>
-      {confirmOrder && <div className='z-1 bg-white/70 h-screen w-screen absolute flex justify-center items-center'>
-        <div className='bg-white'>
-          <p>Order <u>now</u>, confirm?</p>
-          <div>
+    <main className='bg-zinc-100 relative pb-12 h-screen text-zinc-800 p-4'>
+
+      {confirmOrder && <div className='z-1 bg-white/70 h-screen w-screen absolute flex justify-center items-center' onClick={() => setConfirmOrder(false)}>
+        <div className='bg-white shadow-2xl p-8 rounded-2xl'>
+          <p className='font-bold'>Order <u>now</u>, confirm?</p>
+          <div className='mt-4 flex gap-2'>
             <Button primary={false} buttonProps={{ onClick: () => setConfirmOrder(false) }}>Goback</Button>
-            <Button primary={true} buttonProps={{ onClick: sendMessage }}>Order</Button>
+            <Button primary={true} buttonProps={{ onClick: sendMessage, className: "ml-4" }}>Order</Button>
           </div>
         </div>
       </div>}
       <Greeting />
-      <h1>Order Confirmation</h1>
-      <div>
+      <div className='flex mt-8'>
+        <h1 className='text-3xl font-bold'>Order Confirmation</h1>
+        <Image src={'/images/interface/leaves.svg'} height={20} width={20} alt='minimal leaves illustration' />
+      </div>
+      <div className='mt-4'>
         {cart && Object.entries(cart).map(([key, value]) => (
-          <div key={key} className='grid grid-cols-4 justify-between'>
+          <div key={key} className='grid grid-cols-4 mt-4 items-center'>
             <div>
               <strong>{value.en}</strong>
               <p>{value.th}</p>
             </div>
-            <div>THB {value.price}</div>
-            <div className='flex'>
-              <span>x{value.count}</span>
-              <div className='flex flex-col'>
-                <button onClick={() => handleAddCart(key, value)}>Add one</button>
-                <button onClick={() => handleRemoveCart(key)}>Remove one</button>
+            <div className='text-center'>THB {value.price}</div>
+            <div className='flex gap-2 items-center justify-center'>
+              <span><b>x{value.count}</b></span>
+              <div className='flex flex-col gap-1'>
+                <Image src={'/images/interface/plus.svg'} height={28} width={28} alt='add to cart minimal plus icon' onClick={() => handleAddCart(key, value)} />
+                <Image src={'/images/interface/minus.svg'} height={28} width={28} alt='remove from cart minimal minus icon' onClick={() => handleRemoveCart(key)} />
               </div>
             </div>
-            <div>THB {value.count * value.price}</div>
+            <div><b>THB {(value.count * value.price).toLocaleString()}</b></div>
           </div>
         ))}
       </div>
-      <div className='flex'>
-        <h2>Serving Time เวลาเสิร์ฟ</h2>
-        <input type="datetime-local" name="date" id="date" value={dateTime} onChange={e => setDateTime(e.target.value)} className='bg-amber-50 text-blue-900' />
-        <button onClick={setToNow}>NOW!🛎️</button>
+      <h2 className='mt-8'><b>Select Serving Time</b> เลือกเวลาเสิร์ฟ</h2>
+      <div className='flex gap-2'>
+        <input type="datetime-local" name="date" id="date" value={dateTime} onChange={e => setDateTime(e.target.value)} className='rounded-xl border-zinc-300 border-2 px-2 py-1 roboto_mono_a0c1c46e-module__pqQ7DG__className' />
+        <button onClick={setToNow} className='bg-white px-2 rounded-xl cursor-pointer'>NOW!🛎️</button>
       </div>
-      <div className='flex'>
-        <h3>Total รวมยอด</h3>
-        <p>THB {total}</p>
+      <div className='flex justify-between mt-8'>
+        <h3 className='text-2xl font-semibold'>Total รวมยอด</h3>
+        <p className='text-3xl'>THB {total.toLocaleString()}</p>
       </div>
-      <div className='flex'>
-        <button onClick={() => router.push('/menu')}>Back to Menu</button>
-        <Button primary={true} buttonProps={{ onClick: () => setConfirmOrder(true) }}>Order Now</Button>
+      <div className='mt-16 flex justify-between'>
+        <div className="flex cursor-pointer" onClick={() => router.push('/menu')}>
+          <Image src={'/images/interface/arrow-back.svg'} height={20} width={20} alt='arrow back icon' />
+          <button className='cursor-pointer text-zinc-500'>Back to Menu</button>
+        </div>
+        <button className='p-4 rounded-md bg-lime-600 text-white text-xl' onClick={() => setConfirmOrder(true)}><b>Order Now</b></button>
       </div>
     </main >
   );

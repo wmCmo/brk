@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat, Roboto_Mono } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -7,16 +7,10 @@ const montserrat = Montserrat({
   variable: '--font-montserrat'
 });
 
-const robotoMono = Roboto_Mono({
-  subsets: ['latin'],
-  variable: '--font-roboto-mono'
-});
-
 export const metadata: Metadata = {
   title: "Baan Rai Khunya Resort",
   description: "รีสอร์ทบ้านไร่คุณย่า",
 };
-
 
 export default function RootLayout({
   children,

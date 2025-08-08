@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function Reset() {
-
-    localStorage.setItem('client', '{}');
+    useEffect(() => { if (typeof window !== undefined) localStorage.setItem('client', '{}'); }, []);
 
     return (
         <div>Reset successfully</div>

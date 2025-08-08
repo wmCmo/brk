@@ -11,7 +11,7 @@ import { UserType } from '@/types/user';
 
 export default function Greeting({ house, timeout }: SearchParamsType) {
     const details = useLocalItem('details');
-    const [client, updateClient] = useLocalItem<UserType | undefined>('client');
+    const [client, updateClient] = useLocalItem<UserType>('client');
     const [greeting, setGreeting] = useState('');
     const router = useRouter();
 
@@ -43,7 +43,7 @@ export default function Greeting({ house, timeout }: SearchParamsType) {
             localStorage.removeItem('login');
             localStorage.removeItem('history');
             localStorage.removeItem('details');
-            updateClient(undefined);
+            updateClient({});
             router.push('/menu');
         }
     };
@@ -69,7 +69,7 @@ export default function Greeting({ house, timeout }: SearchParamsType) {
                                     <h1 className='text-zinc-400 font-semibold'>Guest Mode</h1>
                                     {details && validParams(house, timeout) && <LinkButton primary={true} target={'./menu/signin'}>Sign in</LinkButton>}
                                 </div>
-                                {!details || !validParams(house, timeout) && <span className=''>Please ask the URL from our staff.</span>}
+                                {!details || !validParams(house, timeout) && <span className=''>Please ask for the URL from our staff.</span>}
                             </div>
                         </div>
                     )

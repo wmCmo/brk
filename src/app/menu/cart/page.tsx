@@ -12,9 +12,12 @@ import { SearchParamsType } from '@/types/searchParams';
 import Image from 'next/image';
 
 export default function CartPage() {
-
+  const now = new Date();
+  now.setHours(now.getHours() + 1);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const localValue = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
   const [cart, setCart, , handleRemoveCart] = useCart();
-  const [dateTime, setDateTime] = useState('');
+  const [dateTime, setDateTime] = useState(localValue);
   const [confirmOrder, setConfirmOrder] = useState(false);
   const [details, setDetails] = useState<SearchParamsType>({});
   const router = useRouter();
@@ -122,9 +125,8 @@ export default function CartPage() {
     setDateTime(now);
   };
 
-
   return (
-    <main className='bg-zinc-100 relative pb-12 h-screen text-zinc-800 p-4'>
+    <main className='bg-zinc-100 relative text-zinc-800 p-4 pb-40'>
 
       {confirmOrder && <div className='z-1 bg-white/70 h-screen w-screen absolute flex justify-center items-center' onClick={() => setConfirmOrder(false)}>
         <div className='bg-white shadow-2xl p-8 rounded-2xl'>
@@ -142,33 +144,31 @@ export default function CartPage() {
       </div>
       <div className='mt-4'>
         {cart && Object.entries(cart).map(([key, value]) => (
-          <div key={key} className='grid grid-cols-4 mt-4 items-center'>
-            <div>
-              <strong>{value.en}</strong>
-              <p>{value.th}</p>
-            </div>
-            <div className='text-center'>THB {value.price}</div>
-            <div className='flex gap-2 items-center justify-center'>
-              <span><b>x{value.count}</b></span>
-              <div className='flex flex-col gap-1'>
-                <Image src={'/images/interface/plus.svg'} height={28} width={28} alt='add to cart minimal plus icon' onClick={() => handleAddCart(key, value)} />
+          <div key={key} className='mt-8'>
+            <strong>{value.en}</strong>
+            <p>{value.th}</p>
+            <div className='grid grid-cols-3'>
+              <div className=''>THB {value.price}</div>
+              <div className='flex items-center gap-1'>
                 <Image src={'/images/interface/minus.svg'} height={28} width={28} alt='remove from cart minimal minus icon' onClick={() => handleRemoveCart(key)} />
+                <span><b>x{value.count}</b></span>
+                <Image src={'/images/interface/plus.svg'} height={28} width={28} alt='add to cart minimal plus icon' onClick={() => handleAddCart(key, value)} />
               </div>
+              <div><b>THB {(value.count * value.price).toLocaleString()}</b></div>
             </div>
-            <div><b>THB {(value.count * value.price).toLocaleString()}</b></div>
           </div>
         ))}
       </div>
-      <h2 className='mt-8'><b>Select Serving Time</b> เลือกเวลาเสิร์ฟ</h2>
-      <div className='flex gap-2'>
-        <input type="datetime-local" name="date" id="date" value={dateTime} onChange={e => setDateTime(e.target.value)} className='rounded-xl border-zinc-300 border-2 px-2 py-1 roboto_mono_a0c1c46e-module__pqQ7DG__className' />
+      <h2 className='mt-12 text-lg'><b>Select Serving Time</b> เลือกเวลาเสิร์ฟ</h2>
+      <div className='flex gap-2 mt-1'>
+        <input type="datetime-local" name="date" id="date" value={localValue} onChange={e => setDateTime(e.target.value)} className='rounded-xl border-zinc-300 border-2 px-2 py-1' />
         <button onClick={setToNow} className='bg-white px-2 rounded-xl cursor-pointer'>NOW!🛎️</button>
       </div>
       <div className='flex justify-between mt-8'>
         <h3 className='text-2xl font-semibold'>Total รวมยอด</h3>
         <p className='text-3xl'>THB {total.toLocaleString()}</p>
       </div>
-      <div className='mt-16 flex justify-between'>
+      <div className='mt-8 flex justify-between'>
         <div className="flex cursor-pointer" onClick={() => router.push('/menu')}>
           <Image src={'/images/interface/arrow-back.svg'} height={20} width={20} alt='arrow back icon' />
           <button className='cursor-pointer text-zinc-500'>Back to Menu</button>

@@ -16,6 +16,7 @@ export default function CartPage() {
   now.setHours(now.getHours() + 1);
   const pad = (n: number) => String(n).padStart(2, '0');
   const localValue = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
   const [cart, setCart, , handleRemoveCart] = useCart();
   const [dateTime, setDateTime] = useState(localValue);
   const [confirmOrder, setConfirmOrder] = useState(false);
@@ -125,11 +126,18 @@ export default function CartPage() {
     setDateTime(now);
   };
 
+  const handleDeleteItem = (key: string) => {
+    const newCart = { ...cart };
+    delete newCart[key];
+    setCart(newCart);
+  };
+
   return (
-    <main className='relative text-zinc-800 pb-40 bg-zinc-100'>
+    <main className='relative text-zinc-800 pb-40'>
       {confirmOrder && <div className='z-1 bg-white/70 h-full w-screen absolute flex justify-center items-center ' onClick={() => setConfirmOrder(false)}>
         <div className='bg-white shadow-2xl p-8 rounded-2xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
           <p className='font-bold'>Order <u>now</u>, confirm?</p>
+          <p className='text-center'>Serving Time: {new Date(dateTime).toLocaleString()}</p>
           <div className='mt-4 flex gap-2'>
             <Button primary={false} buttonProps={{ onClick: () => setConfirmOrder(false) }}>Goback</Button>
             <Button primary={true} buttonProps={{ onClick: sendMessage, className: "ml-4" }}>Order</Button>
@@ -140,21 +148,22 @@ export default function CartPage() {
         <Greeting />
         <div className='flex mt-8'>
           <h1 className='text-3xl font-bold'>Order Confirmation</h1>
-          <Image src={'/images/interface/leaves.svg'} height={20} width={20} alt='minimal leaves illustration' />
+          <Image src={'/images/interface/leaves.svg'} height={20} width={20} style={{ width: "auto" }} alt='minimal leaves illustration' />
         </div>
         <div className='mt-4'>
           {cart && Object.entries(cart).map(([key, value]) => (
             <div key={key} className='mt-8'>
               <strong>{value.en}</strong>
               <p>{value.th}</p>
-              <div className='grid grid-cols-3'>
+              <div className='grid grid-cols-[1fr_1fr_1fr_auto] mt-4'>
                 <div className=''>THB {value.price}</div>
                 <div className='flex items-center gap-1'>
-                  <Image src={'/images/interface/minus.svg'} height={28} width={28} alt='remove from cart minimal minus icon' onClick={() => handleRemoveCart(key)} />
+                  <Image className='cursor-pointer' src={'/images/interface/minus.svg'} height={28} width={28} style={{ height: "auto" }} alt='remove from cart minimal minus icon' onClick={() => handleRemoveCart(key)} />
                   <span><b>x{value.count}</b></span>
-                  <Image src={'/images/interface/plus.svg'} height={28} width={28} alt='add to cart minimal plus icon' onClick={() => handleAddCart(key, value)} />
+                  <Image className='cursor-pointer' src={'/images/interface/plus.svg'} height={28} width={28} style={{ height: "auto" }} alt='add to cart minimal plus icon' onClick={() => handleAddCart(key, value)} />
                 </div>
-                <div><u><b>THB {(value.count * value.price).toLocaleString()}</b></u></div>
+                <div className=''><u><b>THB {(value.count * value.price).toLocaleString()}</b></u></div>
+                <Image className='justify-self-end cursor-pointer' src={'/images/interface/trash.svg'} height={24} width={24} alt='minimal trashcan icon' onClick={() => handleDeleteItem(key)} />
               </div>
             </div>
           ))}
@@ -170,7 +179,7 @@ export default function CartPage() {
         </div>
         <div className='mt-8 flex justify-between'>
           <div className="flex cursor-pointer" onClick={() => router.push('/menu')}>
-            <Image src={'/images/interface/arrow-back.svg'} height={20} width={20} alt='arrow back icon' />
+            <Image src={'/images/interface/arrow-back.svg'} height={20} width={20} style={{ height: "auto" }} alt='arrow back icon' />
             <button className='cursor-pointer text-zinc-500'>Back to Menu</button>
           </div>
           <button className='p-4 rounded-md bg-lime-600 text-white text-xl' onClick={() => setConfirmOrder(true)}><b>Order Now</b></button>

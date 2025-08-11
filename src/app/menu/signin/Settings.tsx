@@ -23,7 +23,7 @@ export default function Settings() {
   };
 
   return (
-    <div>
+    <div className='text-zinc-800'>
       <h1>Settings แก้ไขข้อมูล</h1>
       <h3>Nickname ชื่อเล่น</h3>
       {!editName && <div>{client.name}</div>}

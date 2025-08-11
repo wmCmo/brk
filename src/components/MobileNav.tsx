@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation';
 
 export default function MobileNav() {
     const pathname = usePathname();
-    console.log(pathname);
     const navIcons = [
         { index: 'home', target: '/' },
         { index: 'menu', target: '/menu' },

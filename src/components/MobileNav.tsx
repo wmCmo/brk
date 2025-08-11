@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 
 export default function MobileNav() {
     const pathname = usePathname();
+    console.log(pathname);
     const navIcons = [
         { index: 'home', target: '/' },
         { index: 'menu', target: '/menu' },
@@ -16,12 +17,12 @@ export default function MobileNav() {
     ];
 
     return (
-        <div className="flex fixed bottom-0 justify-around h-20 bg-zinc-200 w-full rounded-t-md">
+        <div className="flex fixed bottom-0 justify-around h-20 bg-zinc-200 w-full rounded-t-md drop-shadow-2xl">
             {navIcons.map(({ index, target }) => {
                 return (
                     <div key={index} className=''>
                         <Link href={target} className='h-full flex items-center'>
-                            <div style={{ color: pathname === target ? '#5EA500' : '#9F9FA9' }}>
+                            <div className={`${pathname === target ? 'bg-white' : ''} rounded-full h-13 w-13 flex justify-center items-center`}>
                                 <Image style={index === 'cart' ? { width: 'auto' } : {}} src={`/images/interface/nav/${index}.svg`} height={index === 'cart' ? 52 : 32} width={index === 'cart' ? 52 : 32} alt={`${index}-icon`} />
                             </div>
                         </Link>

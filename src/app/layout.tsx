@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-svh">
+    <html lang="en" className="h-screen">
       <body className={`${montserrat.className} h-full`}>
         {/* <Nav /> */}
         {children}

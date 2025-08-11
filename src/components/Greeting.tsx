@@ -49,7 +49,7 @@ export default function Greeting({ house, timeout }: SearchParamsType) {
     };
 
     return (
-        <section className='flex justify-between items-center mt-8'>
+        <section className='flex justify-between items-center pt-8'>
             {
                 client && client.name && client.phone ? (
                     <div>

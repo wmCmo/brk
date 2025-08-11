@@ -126,10 +126,9 @@ export default function CartPage() {
   };
 
   return (
-    <main className='bg-zinc-100 relative text-zinc-800 p-4 pb-40'>
-
-      {confirmOrder && <div className='z-1 bg-white/70 h-screen w-screen absolute flex justify-center items-center' onClick={() => setConfirmOrder(false)}>
-        <div className='bg-white shadow-2xl p-8 rounded-2xl'>
+    <main className='relative text-zinc-800 pb-40 bg-zinc-100'>
+      {confirmOrder && <div className='z-1 bg-white/70 h-full w-screen absolute flex justify-center items-center ' onClick={() => setConfirmOrder(false)}>
+        <div className='bg-white shadow-2xl p-8 rounded-2xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
           <p className='font-bold'>Order <u>now</u>, confirm?</p>
           <div className='mt-4 flex gap-2'>
             <Button primary={false} buttonProps={{ onClick: () => setConfirmOrder(false) }}>Goback</Button>
@@ -137,43 +136,45 @@ export default function CartPage() {
           </div>
         </div>
       </div>}
-      <Greeting />
-      <div className='flex mt-8'>
-        <h1 className='text-3xl font-bold'>Order Confirmation</h1>
-        <Image src={'/images/interface/leaves.svg'} height={20} width={20} alt='minimal leaves illustration' />
-      </div>
-      <div className='mt-4'>
-        {cart && Object.entries(cart).map(([key, value]) => (
-          <div key={key} className='mt-8'>
-            <strong>{value.en}</strong>
-            <p>{value.th}</p>
-            <div className='grid grid-cols-3'>
-              <div className=''>THB {value.price}</div>
-              <div className='flex items-center gap-1'>
-                <Image src={'/images/interface/minus.svg'} height={28} width={28} alt='remove from cart minimal minus icon' onClick={() => handleRemoveCart(key)} />
-                <span><b>x{value.count}</b></span>
-                <Image src={'/images/interface/plus.svg'} height={28} width={28} alt='add to cart minimal plus icon' onClick={() => handleAddCart(key, value)} />
-              </div>
-              <div><b>THB {(value.count * value.price).toLocaleString()}</b></div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <h2 className='mt-12 text-lg'><b>Select Serving Time</b> เลือกเวลาเสิร์ฟ</h2>
-      <div className='flex gap-2 mt-1'>
-        <input type="datetime-local" name="date" id="date" value={localValue} onChange={e => setDateTime(e.target.value)} className='rounded-xl border-zinc-300 border-2 px-2 py-1' />
-        <button onClick={setToNow} className='bg-white px-2 rounded-xl cursor-pointer'>NOW!🛎️</button>
-      </div>
-      <div className='flex justify-between mt-8'>
-        <h3 className='text-2xl font-semibold'>Total รวมยอด</h3>
-        <p className='text-3xl'>THB {total.toLocaleString()}</p>
-      </div>
-      <div className='mt-8 flex justify-between'>
-        <div className="flex cursor-pointer" onClick={() => router.push('/menu')}>
-          <Image src={'/images/interface/arrow-back.svg'} height={20} width={20} alt='arrow back icon' />
-          <button className='cursor-pointer text-zinc-500'>Back to Menu</button>
+      <div className="px-4">
+        <Greeting />
+        <div className='flex mt-8'>
+          <h1 className='text-3xl font-bold'>Order Confirmation</h1>
+          <Image src={'/images/interface/leaves.svg'} height={20} width={20} alt='minimal leaves illustration' />
         </div>
-        <button className='p-4 rounded-md bg-lime-600 text-white text-xl' onClick={() => setConfirmOrder(true)}><b>Order Now</b></button>
+        <div className='mt-4'>
+          {cart && Object.entries(cart).map(([key, value]) => (
+            <div key={key} className='mt-8'>
+              <strong>{value.en}</strong>
+              <p>{value.th}</p>
+              <div className='grid grid-cols-3'>
+                <div className=''>THB {value.price}</div>
+                <div className='flex items-center gap-1'>
+                  <Image src={'/images/interface/minus.svg'} height={28} width={28} alt='remove from cart minimal minus icon' onClick={() => handleRemoveCart(key)} />
+                  <span><b>x{value.count}</b></span>
+                  <Image src={'/images/interface/plus.svg'} height={28} width={28} alt='add to cart minimal plus icon' onClick={() => handleAddCart(key, value)} />
+                </div>
+                <div><u><b>THB {(value.count * value.price).toLocaleString()}</b></u></div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <h2 className='mt-12 text-lg'><b>Select Serving Time</b> เลือกเวลาเสิร์ฟ</h2>
+        <div className='flex gap-2 mt-1'>
+          <input type="datetime-local" name="date" id="date" value={localValue} onChange={e => setDateTime(e.target.value)} className='rounded-xl border-zinc-300 border-2 px-2 py-1' />
+          <button onClick={setToNow} className='bg-white px-2 rounded-xl cursor-pointer'>NOW!🛎️</button>
+        </div>
+        <div className='flex justify-between mt-8'>
+          <h3 className='text-2xl font-semibold'>Total รวมยอด</h3>
+          <p className='text-3xl'>THB {total.toLocaleString()}</p>
+        </div>
+        <div className='mt-8 flex justify-between'>
+          <div className="flex cursor-pointer" onClick={() => router.push('/menu')}>
+            <Image src={'/images/interface/arrow-back.svg'} height={20} width={20} alt='arrow back icon' />
+            <button className='cursor-pointer text-zinc-500'>Back to Menu</button>
+          </div>
+          <button className='p-4 rounded-md bg-lime-600 text-white text-xl' onClick={() => setConfirmOrder(true)}><b>Order Now</b></button>
+        </div>
       </div>
     </main >
   );

@@ -78,7 +78,7 @@ export default function HistoryPage() {
           )
       }
       <div className="flex justify-center">
-        <Image src={'/images/interface/shop-illustration.svg'} height={128} width={128} alt='illustration of a woman doing online shopping' />
+        <Image src={'/images/interface/shop-illustration.svg'} height={128} width={128} style={{ height: "auto" }} alt='illustration of a woman doing online shopping' />
       </div>
     </div>
   );

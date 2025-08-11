@@ -133,12 +133,12 @@ export default function CartPage() {
   };
 
   return (
-    <main className='relative text-zinc-800 pb-40'>
-      {confirmOrder && <div className='z-1 bg-white/70 h-full w-screen absolute flex justify-center items-center ' onClick={() => setConfirmOrder(false)}>
+    <main className='relative text-zinc-700 pb-40'>
+      {confirmOrder && <div className='z-1 bg-white/70 h-full w-screen absolute flex justify-center items-center text-center' onClick={() => setConfirmOrder(false)}>
         <div className='bg-white shadow-2xl p-8 rounded-2xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
           <p className='font-bold'>Order <u>now</u>, confirm?</p>
           <p className='text-center'>Serving Time: {new Date(dateTime).toLocaleString()}</p>
-          <div className='mt-4 flex gap-2'>
+          <div className='mt-4 flex gap-2 justify-center'>
             <Button primary={false} buttonProps={{ onClick: () => setConfirmOrder(false) }}>Goback</Button>
             <Button primary={true} buttonProps={{ onClick: sendMessage, className: "ml-4" }}>Order</Button>
           </div>
@@ -155,7 +155,7 @@ export default function CartPage() {
             <div key={key} className='mt-8'>
               <strong>{value.en}</strong>
               <p>{value.th}</p>
-              <div className='grid grid-cols-[1fr_1fr_1fr_auto] mt-4'>
+              <div className='grid grid-cols-[1fr_1fr_1fr_auto] mt-2'>
                 <div className=''>THB {value.price}</div>
                 <div className='flex items-center gap-1'>
                   <Image className='cursor-pointer' src={'/images/interface/minus.svg'} height={28} width={28} style={{ height: "auto" }} alt='remove from cart minimal minus icon' onClick={() => handleRemoveCart(key)} />

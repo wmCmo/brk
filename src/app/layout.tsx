@@ -8,7 +8,7 @@ const montserrat = Montserrat({
   variable: '--font-montserrat'
 });
 
-export const kanit = Kanit({
+const kanit = Kanit({
   subsets: ['thai', 'latin'],
   weight: ['300', '400', '500', '700'],
   display: 'swap',

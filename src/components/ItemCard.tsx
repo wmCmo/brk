@@ -12,7 +12,7 @@ type ItemCartProps = {
 export default function ItemCard({ data, cart, handleAddCart, handleRemoveCart }: ItemCartProps) {
 
     const name = data.properties.Name.title[0].plain_text;
-    const restrictions = data.properties['Dietary Restrictions'].multi_select;
+    // const restrictions = data.properties['Dietary Restrictions'].multi_select;
     const price = data.properties.Price.number;
     const description = data.properties.Description.rich_text[0].plain_text;
     return (

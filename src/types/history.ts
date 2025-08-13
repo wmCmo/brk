@@ -1,3 +1,4 @@
+import { houses } from "@/utils/getHouses";
 import { CartType } from "./menu";
 
 export type HistoryType = {
@@ -7,6 +8,6 @@ export type HistoryType = {
     total: number,
     user: {
         name: string,
-        house: string;
+        house: keyof typeof houses;
     };
 };

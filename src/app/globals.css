@@ -26,28 +26,13 @@ body {
 }
 
 @layer utilities {
-  .bg-gradient-neumorphic {
-    background-image: linear-gradient(135deg, #FFF 100%, #E8E8E9 0%);
+  .neumorphic-up {
+    background: linear-gradient(135deg, #E8E8E9 0%, #FFF 100%);
+    box-shadow: 1px 1px 2px 0 rgba(255, 255, 255, 0.30) inset, -1px -1px 2px 0 rgba(220, 220, 220, 0.50) inset, -5px 5px 10px 0 rgba(220, 220, 220, 0.20), 5px -5px 10px 0 rgba(220, 220, 220, 0.20), -5px -5px 10px 0 rgba(255, 255, 255, 0.90), 5px 5px 13px 0 rgba(220, 220, 220, 0.90);
   }
 
-  .shadow-neumorphic {
-    box-shadow:
-      inset 1px 1px 2px rgba(255, 255, 255, 0.30),
-      inset -1px -1px 2px rgba(229, 229, 229, 0.50),
-      -3px 3px 6px rgba(229, 229, 229, 0.20),
-      3px -3px 6px rgba(229, 229, 229, 0.20),
-      -3px -3px 6px rgba(255, 255, 255, 0.90),
-      3px 3px 8px rgba(229, 229, 229, 0.90);
-  }
-  
-  .neumorphic {
-    border-radius: 0.2905rem;
+  .neumorphic-down {
     background: #F0F0F0;
-    box-shadow: 1px 1px 2px 0 rgba(252, 252, 252, 0.30),
-      -1px -1px 2px 0 rgba(228, 228, 228, 0.50),
-      -1px 1px 2px 0 rgba(228, 228, 228, 0.20) inset,
-      1px -1px 2px 0 rgba(228, 228, 228, 0.20) inset,
-      -1px -1px 2px 0 rgba(252, 252, 252, 0.90) inset,
-      1px 1px 3px 0 rgba(228, 228, 228, 0.90) inset;
+    box-shadow: 1px 1px 2px 0 rgba(252, 252, 252, 0.30), -1px -1px 2px 0 rgba(228, 228, 228, 0.50), -1px 1px 2px 0 rgba(228, 228, 228, 0.20) inset, 1px -1px 2px 0 rgba(228, 228, 228, 0.20) inset, -1px -1px 2px 0 rgba(252, 252, 252, 0.90) inset, 1px 1px 3px 0 rgba(228, 228, 228, 0.90) inset;
   }
 }

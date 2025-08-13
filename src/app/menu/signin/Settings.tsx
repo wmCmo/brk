@@ -32,22 +32,22 @@ export default function Settings() {
       <div className="flex justify-center mt-4">
         <div className='flex flex-col'>
           <h3 className=''><b>Nickname</b> ชื่อเล่น</h3>
-          <div className='rounded-full bg-gradient-neumorphic shadow-neumorphic flex justify-between px-4 py-2 min-w-64 my-2'>
+          <div className='rounded-full neumorphic-up flex justify-between px-4 py-2 min-w-64 my-2'>
             {!editName && <div className=''>{client.name}</div>}
             {!editName && <Image className='' src={'/images/interface/edit.svg'} height={16} width={16} alt='minimal edit icon' onClick={() => setEditName(prev => !prev)} />}
             {editName && <input type="text" name='name' value={client.name} onChange={handleChange} />}
             {editName && <Image src={'/images/interface/save.svg'} height={16} width={16} alt='minimal save icon' onClick={() => { setEditName(prev => !prev); localStorage.setItem('client', JSON.stringify(client)); }} />}
           </div>
           <h3 className='mt-2'><b>Phone number</b> เบอร์โทรศัพท์</h3>
-          <div className='rounded-full bg-gradient-neumorphic shadow-neumorphic flex justify-between px-4 py-2 min-w-64 my-2'>
+          <div className='rounded-full neumorphic-up flex justify-between px-4 py-2 min-w-64 my-2'>
             {!editPhone && <div>{client.phone}</div>}
             {editPhone && <input type="text" name='phone' value={client.phone} onChange={handleChange} />}
             {!editPhone && <Image src={'/images/interface/edit.svg'} height={16} width={16} alt='minimal edit icon' onClick={() => setEditPhone(prev => !prev)} />}
             {editPhone && <Image src={'/images/interface/save.svg'} height={16} width={16} alt='minimal edit icon' onClick={() => { setEditPhone(prev => !prev); localStorage.setItem('client', JSON.stringify(client)); }} />}
           </div>
-          <div className='my-4 neumorphic h-1'></div>
-          <div className='rounded-sm bg-gradient-neumorphic shadow-neumorphic px-4 py-2 min-w-64 my-2'>House: <b>{details.house}</b></div>
-          <div className='rounded-sm bg-gradient-neumorphic shadow-neumorphic px-4 py-2 min-w-64 my-2'>Checkout date: <b>{getTimeoutString(details.timeout!)}</b></div>
+          <div className='my-4 neumorphic-down h-1'></div>
+          <div className='rounded-sm neumorphic-up px-4 py-2 min-w-64 my-2'>House: <b>{details.house}</b></div>
+          <div className='rounded-sm neumorphic-up px-4 py-2 min-w-64 my-2'>Checkout date: <b>{getTimeoutString(details.timeout!)}</b></div>
         </div>
       </div>
     </div>

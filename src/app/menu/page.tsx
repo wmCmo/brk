@@ -9,7 +9,9 @@ interface PageProps {
 export default async function MenuPage({ searchParams }: PageProps) {
 
     const params = await searchParams;
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getMenu`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getMenu`, {
+        cache: 'force-cache'
+    });
     const data = await res.json();
 
     return (

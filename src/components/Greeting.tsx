@@ -40,7 +40,6 @@ export default function Greeting({ house, timeout }: SearchParamsType) {
     const handleLogout = () => {
         if (typeof window !== "undefined") {
             localStorage.removeItem('client');
-            localStorage.removeItem('login');
             localStorage.removeItem('history');
             localStorage.removeItem('details');
             updateClient({});
@@ -74,7 +73,7 @@ export default function Greeting({ house, timeout }: SearchParamsType) {
                         </div>
                     )
             }
-            <Image src={'/images/interface/logo.svg'} width={64} height={64} alt='brk logo' />
+            <Image src={'/images/interface/logo.svg'} width={80} height={80} alt='brk logo' />
         </section>
     );
 }

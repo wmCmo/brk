@@ -11,12 +11,12 @@ import { getTimeoutString } from '@/utils/validParams';
 import { SearchParamsType } from '@/types/searchParams';
 import Image from 'next/image';
 
-export default function CartPage() {
-  const now = new Date();
-  now.setHours(now.getHours() + 1);
-  const pad = (n: number) => String(n).padStart(2, '0');
-  const localValue = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+const now = new Date();
+now.setHours(now.getHours() + 1);
+const pad = (n: number) => String(n).padStart(2, '0');
+const localValue = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
+export default function CartPage() {
   const [cart, setCart, , handleRemoveCart] = useCart();
   const [dateTime, setDateTime] = useState(localValue);
   const [confirmOrder, setConfirmOrder] = useState(false);
@@ -95,15 +95,8 @@ export default function CartPage() {
       window.alert('Notice: The food will take approximately 1 hour to prepare');
     }
 
-    if (groupId) {
-      await sendLineMessage(groupId, [{
-        type: 'text', text:
-          `บ้าน ${details.house}\n` + `${client.name} ${client.phone}\n` + `${`${year}/${month}/${day} - ${hour}:${min}`}\n` + `------\n` + `${Object.entries(cart).map(item => `${item[1].th} = ${item[1].count}\n`).join('')}`
-      }]);
-    }
-
     const history = JSON.parse(localStorage.getItem('history') || '[]');
-    history.push({
+    const newHistory = {
       'ordered-date': new Date().toLocaleString(),
       'serve-time': d.toLocaleString(),
       order: cart,
@@ -112,11 +105,40 @@ export default function CartPage() {
         name: client.name,
         house: details.house
       }
-    });
+    };
 
-    localStorage.setItem('history', JSON.stringify(history));
-    router.push('/menu/history');
-    localStorage.setItem('cart', '{}');
+    const res = await fetch('/api/addHistory', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        history: newHistory,
+        phone: client.phone
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      history.push(newHistory);
+      if (groupId) {
+        await sendLineMessage(groupId, [{
+          type: 'text', text:
+            `บ้าน ${details.house}
+${client.name} ${client.phone}
+${`${year}/${month}/${day} - ${hour}:${min}`}
+------
+${Object.entries(cart).map(item => `${item[1].th} = ${item[1].count}`).join('\n')}
+------
+รวม ${total.toLocaleString()} บาท
+Notion Link: ${data.url}`
+        }]);
+      }
+      localStorage.setItem('history', JSON.stringify(history));
+      router.push('/menu/history');
+      localStorage.setItem('cart', '{}');
+    } else {
+      window.alert('There was an error.');
+    }
   };
 
   const setToNow = () => {
@@ -170,7 +192,7 @@ export default function CartPage() {
         </div>
         <h2 className='mt-12 text-lg'><b>Select Serving Time</b> เลือกเวลาเสิร์ฟ</h2>
         <div className='flex gap-2 mt-1'>
-          <input type="datetime-local" name="date" id="date" value={localValue} onChange={e => setDateTime(e.target.value)} className='rounded-xl border-zinc-300 border-2 px-2 py-1' />
+          <input type="datetime-local" name="date" id="date" value={dateTime} onChange={e => setDateTime(e.target.value)} className='rounded-xl border-zinc-300 border-2 px-2 py-1' />
           <button onClick={setToNow} className='bg-white px-2 rounded-xl cursor-pointer'>NOW!🛎️</button>
         </div>
         <div className='flex justify-between mt-8'>

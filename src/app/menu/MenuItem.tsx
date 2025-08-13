@@ -23,9 +23,11 @@ export default function MenuItem({ data }: { data: NotionResponse[]; }) {
 
     return (
         <section className='mt-8 pb-12'>
-            <select className='text-md bg-zinc-200 px-2 py-2 rounded-2xl font-semibold text-center drop-shadow-sm' name="category" id="category" onChange={e => setCategory(e.target.value)} value={category}>
-                {categoryMenu.map(item => <option value={item.value} className='rounded-2xl' key={item.value}>{item.title}</option>)}
-            </select>
+            <div className="flex justify-center">
+                <select className='text-md bg-zinc-200 px-2 py-2 rounded-xl font-semibold text-center drop-shadow-sm' name="category" id="category" onChange={e => setCategory(e.target.value)} value={category}>
+                    {categoryMenu.map(item => <option value={item.value} className='' key={item.value}>{item.title}</option>)}
+                </select>
+            </div>
             <div className='mt-8'>
                 {data.filter(item => item.properties.Category.select.name === category).map((item) => <ItemCard key={item.id} data={item} cart={cart} handleAddCart={handleAddCart} handleRemoveCart={handleRemoveCart} />)}
             </div>

@@ -18,7 +18,11 @@ export default function HistoryPage() {
   useEffect(() => {
     if (typeof window !== undefined) {
       const readHistory = localStorage.getItem('history');
-      if (readHistory) setHistory(JSON.parse(readHistory));
+      if (readHistory) {
+        const parsedHistory: HistoryType[] = JSON.parse(readHistory);
+        parsedHistory.reverse();
+        setHistory(parsedHistory);
+      }
     }
   }, []);
 

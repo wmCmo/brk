@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         const response = await notion.pages.create({
             parent: { database_id: NOTION_DATABASE_HISTORY_ID },
             properties: {
-                title: { title: [{ text: { content: history.user.name } }] },
+                title: { title: [{ text: { content: `${history.user.name} ${houses[history.user.house].th}` } }] },
                 "Tk%5E%3D": { phone_number: phone },
                 "GgBR": { number: history.total },
                 '%3FT%60Y': { relation: Object.keys(history.order).map(key => ({ id: key })) },

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Montserrat, Kanit } from "next/font/google";
 import "./globals.css";
 
@@ -15,9 +15,17 @@ const kanit = Kanit({
   variable: '--font-kanit'
 });
 
+export const viewport: Viewport = {
+  themeColor: '#5EA500'
+};
+
+const APP_NAME = "Baan Rai Khunya Resort";
+const DESCRIPTION = "Cozy Wooden Cottage - Stunning Riverside View in Kanchanaburi";
+
 export const metadata: Metadata = {
-  title: "Baan Rai Khunya Resort",
-  description: "รีสอร์ทบ้านไร่คุณย่า",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
+  title: { default: APP_NAME, template: `%s | ${APP_NAME}` },
+  description: DESCRIPTION,
 };
 
 export default function RootLayout({
@@ -27,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`h-full ${montserrat.variable} ${kanit.variable} font-sans`}>
+      <body className={`h-full ${montserrat.variable} ${kanit.variable} font-sans bg-zinc-100`}>
         {children}
       </body>
     </html>

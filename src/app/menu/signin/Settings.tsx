@@ -5,6 +5,7 @@ import { UserType } from '@/types/user';
 import { getTimeoutString } from '@/utils/validParams';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { houses } from '@/utils/getHouses';
 
 
 export default function Settings() {
@@ -46,7 +47,7 @@ export default function Settings() {
             {editPhone && <Image src={'/images/interface/save.svg'} height={16} width={16} alt='minimal edit icon' onClick={() => { setEditPhone(prev => !prev); localStorage.setItem('client', JSON.stringify(client)); }} />}
           </div>
           <div className='my-4 neumorphic-down h-1'></div>
-          <div className='rounded-sm neumorphic-up px-4 py-2 min-w-64 my-2'>House: <b>{details.house}</b></div>
+          <div className='rounded-sm neumorphic-up px-4 py-2 min-w-64 my-2'>House: <b>{houses[details.house!]['en']}</b></div>
           <div className='rounded-sm neumorphic-up px-4 py-2 min-w-64 my-2'>Checkout date: <b>{getTimeoutString(details.timeout!)}</b></div>
         </div>
       </div>

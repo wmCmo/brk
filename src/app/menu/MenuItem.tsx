@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { NotionResponse } from '@/types/menu';
 import ItemCard from '@/components/ItemCard';
 import useCart from '@/hooks/useCart';
+import Image from 'next/image';
 
 export default function MenuItem({ data }: { data: NotionResponse[]; }) {
     const [category, setCategory] = useState('must-try');
@@ -27,6 +28,7 @@ export default function MenuItem({ data }: { data: NotionResponse[]; }) {
                 <select className='text-md bg-zinc-200 px-2 py-2 rounded-xl font-semibold text-center drop-shadow-sm' name="category" id="category" onChange={e => setCategory(e.target.value)} value={category}>
                     {categoryMenu.map(item => <option value={item.value} className='' key={item.value}>{item.title}</option>)}
                 </select>
+                <Image src={'/images/interface/leaves.svg'} width={20} height={20} style={{width: "auto"}} alt='minimal leaves illustration'/>
             </div>
             <div className='mt-8'>
                 {data.filter(item => item.properties.Category.select.name === category).map((item) => <ItemCard key={item.id} data={item} cart={cart} handleAddCart={handleAddCart} handleRemoveCart={handleRemoveCart} />)}

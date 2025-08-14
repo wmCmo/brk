@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Settings from './Settings';
-import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { useLocalItem } from '@/hooks/useLocalItem';
 import { houses } from '@/utils/getHouses';

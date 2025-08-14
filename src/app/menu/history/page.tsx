@@ -27,7 +27,7 @@ export default function HistoryPage() {
   }, []);
 
   return (
-    <div className='p-4 pb-32'>
+    <div className='px-4 pb-32'>
       <Greeting />
       <div className="flex items-center mt-8 bg-super-pink">
         <h1 className='text-3xl font-bold'>Order History</h1>

@@ -56,7 +56,7 @@ export default function Page() {
 
     return (<>{validSession(details.house, details.timeout, localUser) ?
         <Settings /> :
-        <div className='text-zinc-700 flex flex-col justify-center items-center h-screen'>
+        <div className='text-zinc-700 flex flex-col justify-center items-center h-screen pb-24'>
             <Image className='' src={'/images/interface/logo.svg'} height={128} width={128} alt='Baan Rai Khunya logo' />
             <h1 className='text-center text-4xl'><b>Sign in</b> ลงชื่อใช้งาน</h1>
             <form action={handleSubmit} className='mt-8'>

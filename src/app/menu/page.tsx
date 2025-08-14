@@ -15,7 +15,7 @@ export default async function MenuPage({ searchParams }: PageProps) {
     const data = await res.json();
 
     return (
-        <main className="bg-zinc-100 text-zinc-800 p-4">
+        <main className="bg-zinc-100 text-zinc-800 px-4">
             <Greeting timeout={params.timeout} house={params.house} />
             {data ? <MenuItem data={data} /> : "...loading"}
         </main>

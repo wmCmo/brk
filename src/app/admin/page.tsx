@@ -69,16 +69,14 @@ export default function Page() {
     };
 
     return (
-        <div className='flex flex-col md:flex-row items-center md:justify-around bg-zinc-100 h-screen text-zinc-700'>
+        <div className='flex flex-col items-center justify-center h-screen text-zinc-700 m-4'>
             <div className='flex gap-4 items-center'>
-                <Image className={`${clicked ? 'animate-spin' : ''}`} src={'/images/interface/logo.svg'} width={128} height={128} alt='BRK logo' />
+                <Image className={`${clicked ? 'animate-spin' : ''}`} src={'/images/interface/logo.svg'} width={64} height={64} alt='BRK logo' />
                 <button className='neumorphic-up active:neumorphic-down px-4 py-2 my-4 font-bold rounded-md' onClick={handleCopy}>Copy Link</button>
                 <button className='neumorphic-up active:neumorphic-down px-4 py-2 my-4 font-bold rounded-md' onClick={handleDownload}>Download QR</button>
             </div>
-            <div className="grid grid-cols-2 items-center gap-y-4 mb-8">
-                <label className='font-bold' htmlFor="date">Checkout Date</label>
+            <div className="grid grid-cols-2 items-center mb-8 mt-4 gap-4">
                 <input type="date" name="date" id="date" onChange={e => setDate(e.target.value)} className='neumorphic-up px-4 py-2 rounded-full' />
-                <label className='font-bold' htmlFor="house">Choose House</label>
                 <select className='neumorphic-up px-4 py-2 rounded-full' name="house" id="house" onChange={(e) => setHouse(e.target.value)}>
                     {Object.entries(houses).map(([key, value]) => {
                         return <option value={key} className='' key={key}>{value.th}</option>;

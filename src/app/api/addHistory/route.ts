@@ -27,7 +27,7 @@ export async function POST(req: Request) {
                 "Tk%5E%3D": { phone_number: phone },
                 "GgBR": { number: history.total },
                 '%3FT%60Y': { relation: Object.keys(history.order).map(key => ({ id: key })) },
-                'enYQ': { date: { start: new Date(history["serve-time"]).toISOString(), 'time_zone': 'Asia/Bangkok' } },
+                'enYQ': { date: { start: new Date(history["serve-time"]).toISOString(), } },
                 'olCh': { 'relation': [{ 'id': HOUSE_DICT[history.user.house] }] },
             },
             children:

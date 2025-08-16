@@ -1,6 +1,7 @@
 import Greeting from "@/components/Greeting";
 import { SearchParamsType } from "@/types/searchParams";
 import MenuItem from "./MenuItem";
+import { Suspense } from "react";
 
 interface PageProps {
     searchParams: Promise<SearchParamsType>;
@@ -17,7 +18,9 @@ export default async function MenuPage({ searchParams }: PageProps) {
     return (
         <main className="bg-zinc-100 text-zinc-800 px-4">
             <Greeting timeout={params.timeout} house={params.house} />
-            {data ? <MenuItem data={data} /> : "...loading"}
+            <Suspense fallback={<p>Loading Menu</p>}>
+                <MenuItem data={data} />
+            </Suspense>
         </main>
     );
 }
